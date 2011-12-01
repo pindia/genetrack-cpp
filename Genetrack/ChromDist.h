@@ -25,6 +25,8 @@ public:
         Start = start;
         Length = length;
         Data = new float[length];
+        for(int i=0; i<length; i++) // Make sure data is zeroed
+            Data[i] = 0;
     }
     
     ~ChromDist(){

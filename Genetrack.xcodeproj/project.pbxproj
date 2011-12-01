@@ -47,6 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B7EF92914882DBF0062C94A /* Options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
 		3BA7B0E51487DA2600B359E3 /* Genetrack */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Genetrack; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA7B0E91487DA2700B359E3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3BA7B0EB1487DA2700B359E3 /* Genetrack.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Genetrack.1; sourceTree = "<group>"; };
@@ -55,7 +56,6 @@
 		3BA7B0F41487DA4C00B359E3 /* GFFReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFFReader.h; sourceTree = "<group>"; };
 		3BA7B13B1487DD7E00B359E3 /* input.gff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.gff; sourceTree = "<group>"; };
 		3BA7B13D1487F2DB00B359E3 /* ChromDist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromDist.h; sourceTree = "<group>"; };
-		3BA7B13F1487F5A600B359E3 /* ChromTrans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromTrans.h; sourceTree = "<group>"; };
 		3BA7B1401487F99B00B359E3 /* ChromProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromProcessor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,8 +96,8 @@
 				3BA7B0F31487DA4400B359E3 /* GFFRow.h */,
 				3BA7B0F41487DA4C00B359E3 /* GFFReader.h */,
 				3BA7B13D1487F2DB00B359E3 /* ChromDist.h */,
-				3BA7B13F1487F5A600B359E3 /* ChromTrans.h */,
 				3BA7B1401487F99B00B359E3 /* ChromProcessor.h */,
+				3B7EF92914882DBF0062C94A /* Options.h */,
 			);
 			path = Genetrack;
 			sourceTree = "<group>";
@@ -239,6 +239,7 @@
 				3BA7B0F11487DA2700B359E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

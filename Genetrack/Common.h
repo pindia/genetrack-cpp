@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "Options.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -63,6 +65,6 @@ int strcount(const string& str, const char c){
 }
 
 float NormalDistribution(float x, float sigma){
-    return pow( -x * x , 2 * sigma * sigma);
+    return exp( (-x * x) /  (2 * sigma * sigma));
 }
 
