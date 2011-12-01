@@ -15,7 +15,10 @@ int main(){
     
     vector<GFFRow> chr1 = reader.LoadChromosome();
     
-    cout << chr1.size() << endl;
+    ofstream output("output.gff");
+    ChromProcessor processor(&output);
+    
+    processor.ProcessReads(chr1, 0, 0, 0, 0);
     
     return 0;
 }

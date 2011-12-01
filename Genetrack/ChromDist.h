@@ -31,17 +31,21 @@ public:
         delete [] Data;
     }
     
-    int GetStart(){
+    string GetChrom() const{
+        return Chrom;
+    }
+    
+    int GetStart() const{
         return Start;
     }
     
-    int GetEnd(){
+    int GetEnd() const{
         return Start + Length - 1;
     }
     
     // GetData, SetData, and AddData methods take *absolute chromosomal coordinates*
     
-    int GetData(int index){
+    int GetData(int index) const{
         return Data[index - Start];
     }
     

@@ -55,4 +55,23 @@ struct GFFRow{
 		return row;
 	}
     
+    string ToString() const{
+        stringstream s;
+        s << cname << "\t";
+        s << source << "\t";
+        s << type << "\t";
+        s << start << "\t";
+        s << end << "\t";
+        s << score << "\t";
+        if(strand == FORWARD)
+            s << "+" << "\t";
+        else if(strand == REVERSE)
+            s << "-" << "\t";
+        else
+            s << "." << "\t";
+        s << phase << "\t";
+        s << "." << "\t";
+        return s.str();
+    }
+    
 };

@@ -16,8 +16,11 @@ public:
         OutputFile = outputFile;
     }
     
+    
     void ProcessReads(const vector<GFFRow>& reads, int startIndex, int endIndex, int sigma, int exclusion){
-        ChromDist* dist = ChromDist::AllocateChromDistFitting(reads, PADDING);
+        string cname = reads[0].cname;
+        ChromDist* forward = ChromDist::AllocateChromDistFitting(reads, PADDING);
+        ChromDist* reverse = ChromDist::AllocateChromDistFitting(reads, PADDING);
         
         // First, set up the chromosome distribution
         for(const GFFRow& read : reads){
@@ -26,16 +29,47 @@ public:
             for(int i=-NORMAL_BOUNDS; i<+NORMAL_BOUNDS; i++){
                 float x = NormalDistribution(i, sigma);
                 x *= read.score; // The higher the score, the more confident we are in the particular distribution
-                dist->AddData(i+read.start, x);
+                if(read.strand == FORWARD)
+                    forward->AddData(i+read.start, x);
+                if(read.strand == REVERSE)
+                    reverse->AddData(i+read.start, x);
             }
         }
         
-        // Now, loop through the chromosome and look for maxima to call peaks
-        for(int i=dist->GetStart(); i<=dist->GetEnd(); i++){
-            
+        // Call the peaks from the distribution
+        vector<GFFRow>* forwardPeaks = CallPeaks(forward, exclusion, FORWARD);
+        vector<GFFRow>* reversePeaks = CallPeaks(reverse, exclusion, REVERSE);
+        
+        // Finally, write the called peaks to the output file
+        WritePeaks(forwardPeaks);
+        WritePeaks(reversePeaks);
+        
+
+        
+        
+    }
+    
+    vector<GFFRow>* CallPeaks(ChromDist* dist, int exclusion, Strand strand) const{
+        vector<GFFRow>* peaks = new vector<GFFRow>();
+        // Loop through the chromosome and look for maxima to call peaks
+        for(int i=dist->GetStart()+1; i<dist->GetEnd(); i++){
+            if(dist->GetData(i) > dist->GetData(i-1) && dist->GetData(i) > dist->GetData(i+1)){
+                GFFRow r;
+                r.cname = dist->GetChrom();
+                r.source = "genetrack";
+                r.start = i - exclusion;
+                r.end = i + exclusion;
+                r.strand = strand;
+                peaks->push_back(r);
+            }
         }
-        
-        
+        return peaks;
+    }
+    
+    void WritePeaks(vector<GFFRow>* reads){
+        for(const GFFRow& read : *reads){
+            *OutputFile << read.ToString() << endl;
+        }
     }
     
     
