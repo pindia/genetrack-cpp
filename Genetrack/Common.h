@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <cmath>
 using namespace std;
 
 vector<string> strsplit(const string& s, const string& delim, const bool keep_empty = true) {
@@ -59,5 +60,9 @@ int strcount(const string& str, const char c){
 		if(str[i] == c)
 			count++;
 	return count;
+}
+
+float NormalDistribution(float x, float sigma){
+    return pow( -x * x , 2 * sigma * sigma);
 }
 

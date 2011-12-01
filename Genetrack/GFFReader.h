@@ -37,7 +37,6 @@ private:
 		string str;
 		do{
 			getline(*InputFile, str);
-			cout << str << endl;
 			if((*InputFile).eof())
 				return false;
 		} while (!GFFRow::IsValidRow(str));

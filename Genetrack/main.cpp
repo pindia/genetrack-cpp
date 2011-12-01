@@ -5,22 +5,17 @@
 #include <fstream>
 
 #include "GFFReader.h"
+#include "ChromProcessor.h"
 
 int main(){
     
-    cout << "Hello world!";
-    
-    char* s;
-    size_t size;
-    s = getcwd(s, size);
-    cout << s;
     
     ifstream input("input.gff");
     GFFReader reader(&input);
     
     vector<GFFRow> chr1 = reader.LoadChromosome();
     
-    cout << chr1.size();
+    cout << chr1.size() << endl;
     
-    system("pause");
+    return 0;
 }
