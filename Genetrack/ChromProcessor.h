@@ -6,6 +6,7 @@
 #include <fstream>
 #include "GFFRow.h"
 #include "ChromDist.h"
+#include "GFFSearcher.h"
 
 #define PADDING 100
 #define NORMAL_BOUNDS 50
@@ -40,10 +41,24 @@ public:
         vector<GFFRow>* forwardPeaks = CallPeaks(forward, FORWARD, options);
         vector<GFFRow>* reversePeaks = CallPeaks(reverse, REVERSE, options);
         
+        // Process exclusion on the peaks
+        
+        PerformExclusion(forwardPeaks, options);
+        PerformExclusion(reversePeaks, options);
+        
         // Finally, write the called peaks to the output file
         WritePeaks(forwardPeaks);
+        
         WritePeaks(reversePeaks);
         
+        
+    }
+    
+    void PerformExclusion(vector<GFFRow>* peaks, const Options& options){
+        GFFSearcher s(peaks);
+        for(const GFFRow& peak : *peaks){
+            vector<GFFRow>* otherPeaks = s.GetWindow(peak.start, peak.end);
+        }
         
     }
     

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <list>
 
 #include "GFFReader.h"
 #include "ChromProcessor.h"
