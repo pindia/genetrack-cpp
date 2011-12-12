@@ -136,8 +136,17 @@ public:
         return peaks;
     }
     
+    void StripZeroPadding(string& cname){
+        size_t pos;
+        pos = cname.find('0');
+        if(pos != string::npos){
+            cname.erase(pos, 1); // Erase the single 0 character if found
+        }
+    }
+    
     void WritePeaks(vector<GFFRow>* reads){
-        for(const GFFRow& read : *reads){
+        for(GFFRow& read : *reads){
+            StripZeroPadding(read.cname); // Translate chr01 to chr1
             cout << read.ToString() << endl;
             *OutputFile << read.ToString() << endl;
         }
