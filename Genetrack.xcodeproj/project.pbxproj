@@ -10,6 +10,9 @@
 		3BA7B0EA1487DA2700B359E3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BA7B0E91487DA2700B359E3 /* main.cpp */; };
 		3BA7B0EC1487DA2700B359E3 /* Genetrack.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BA7B0EB1487DA2700B359E3 /* Genetrack.1 */; };
 		3BA7B13C1487DD8A00B359E3 /* input.gff in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BA7B13B1487DD7E00B359E3 /* input.gff */; };
+		3BBAE05D1495CE6200952A8D /* ChromProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BBAE05C1495CE6200952A8D /* ChromProcessor.cpp */; };
+		3BBAE0601495CF5C00952A8D /* GFFSearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BBAE05F1495CF5C00952A8D /* GFFSearcher.cpp */; };
+		3BBAE0621495D05700952A8D /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3BBAE0611495D05700952A8D /* Common.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -58,6 +61,9 @@
 		3BA7B13B1487DD7E00B359E3 /* input.gff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.gff; sourceTree = "<group>"; };
 		3BA7B13D1487F2DB00B359E3 /* ChromDist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromDist.h; sourceTree = "<group>"; };
 		3BA7B1401487F99B00B359E3 /* ChromProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromProcessor.h; sourceTree = "<group>"; };
+		3BBAE05C1495CE6200952A8D /* ChromProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChromProcessor.cpp; sourceTree = "<group>"; };
+		3BBAE05F1495CF5C00952A8D /* GFFSearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GFFSearcher.cpp; sourceTree = "<group>"; };
+		3BBAE0611495D05700952A8D /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,9 @@
 				3BA7B1401487F99B00B359E3 /* ChromProcessor.h */,
 				3B7EF92914882DBF0062C94A /* Options.h */,
 				3B7EF92B148833FB0062C94A /* GFFSearcher.h */,
+				3BBAE05C1495CE6200952A8D /* ChromProcessor.cpp */,
+				3BBAE05F1495CF5C00952A8D /* GFFSearcher.cpp */,
+				3BBAE0611495D05700952A8D /* Common.cpp */,
 			);
 			path = Genetrack;
 			sourceTree = "<group>";
@@ -157,6 +166,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BA7B0EA1487DA2700B359E3 /* main.cpp in Sources */,
+				3BBAE05D1495CE6200952A8D /* ChromProcessor.cpp in Sources */,
+				3BBAE0601495CF5C00952A8D /* GFFSearcher.cpp in Sources */,
+				3BBAE0621495D05700952A8D /* Common.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

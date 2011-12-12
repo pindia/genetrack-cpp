@@ -11,15 +11,6 @@
 class ChromDist{
 public:
     
-    // Returns a ChromDist allocated to fit all of the reads given
-    // Reads must be in sorted order!
-    static ChromDist* AllocateChromDistFitting(const vector<GFFRow>& reads, int padding){
-        string chrom = reads[0].cname;
-        int minIndex = reads[0].start;
-        int maxIndex = reads[reads.size()-1].end;
-        return new ChromDist(chrom, minIndex-padding, maxIndex-minIndex+padding); 
-    }
-    
     ChromDist(string chrom, int start, int length){
         Chrom = chrom;
         Start = start;
