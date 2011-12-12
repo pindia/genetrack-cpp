@@ -57,6 +57,9 @@ void ChromProcessor::ProcessReads(const vector<GFFRow>& reads, int startIndex, i
     vector<GFFRow>* forwardPeaks = CallPeaks(forward, FORWARD, options);
     vector<GFFRow>* reversePeaks = CallPeaks(reverse, REVERSE, options);
     
+    delete forward;
+    delete reverse;
+    
     // Process exclusion on the peaks
     PerformExclusion(forwardPeaks, options);
     PerformExclusion(reversePeaks, options);
@@ -64,6 +67,9 @@ void ChromProcessor::ProcessReads(const vector<GFFRow>& reads, int startIndex, i
     // Finally, write the called peaks to the output file
     WritePeaks(forwardPeaks);
     WritePeaks(reversePeaks);
+    
+    delete forwardPeaks;
+    delete reversePeaks;
     
     
 }
@@ -110,6 +116,8 @@ void ChromProcessor::PerformExclusion(vector<GFFRow>*& peaks, const Options& opt
     }
     
     SortByStart(*newPeaks); // New peaks should be once again sorted by index
+    
+    delete peaks;
     
     peaks = newPeaks;
     
