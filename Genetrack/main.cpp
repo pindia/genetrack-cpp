@@ -23,8 +23,14 @@ int main(){
     o.exclusion = 20;
     o.width = 20;
     o.filter = 1;
+    o.chunkSize = 1000;
     
-    processor.ProcessReads(chr1, 0, 0, o);
+    int maxIndex = chr1.back().start;
+    
+    for(int startIndex=0; startIndex<maxIndex; startIndex += o.chunkSize){
+        processor.ProcessReads(chr1, startIndex, startIndex + o.chunkSize, o);
+    }
+    
     
     return 0;
 }

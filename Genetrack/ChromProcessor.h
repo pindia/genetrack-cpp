@@ -32,12 +32,20 @@ public:
     
     
     void ProcessReads(const vector<GFFRow>& reads, int startIndex, int endIndex, const Options& options){
+                
         string cname = reads[0].cname;
-        ChromDist* forward = ChromDist::AllocateChromDistFitting(reads, PADDING);
-        ChromDist* reverse = ChromDist::AllocateChromDistFitting(reads, PADDING);
+        
+        cout << "Processing " << cname << " " << startIndex << "-" << endIndex << endl;
+
+        
+        ChromDist* forward = new ChromDist(cname, startIndex - PADDING, endIndex + PADDING);
+        ChromDist* reverse = new ChromDist(cname, startIndex - PADDING, endIndex + PADDING);
         
         // First, set up the chromosome distribution
         for(const GFFRow& read : reads){
+            
+            if(read.start < startIndex || read.end > endIndex)
+                continue; // If read is not in process bounds, ignore it
             
             if(read.score <= options.filter)
                 continue; // If read does not pass filter, do not process it
@@ -120,8 +128,6 @@ public:
         vector<GFFRow>* peaks = new vector<GFFRow>();
         // Loop through the chromosome and look for maxima to call peaks
         for(int i=dist->GetStart()+1; i<dist->GetEnd(); i++){
-            if(i > 1000)
-                break;
             if(dist->GetData(i) > dist->GetData(i-1) && dist->GetData(i) > dist->GetData(i+1)){
                 GFFRow r;
                 r.cname = dist->GetChrom();

@@ -8,4 +8,5 @@ struct Options{
     int width;
     int exclusion;
     int filter;
+    int chunkSize;
 };
