@@ -9,6 +9,7 @@
 #include "ChromProcessor.h"
 
 int main(int argc, char* argv[]){
+
     
     if(argc < 2){
         cout << "Usage: Genetrack.exe <input_path> <options>" << endl;
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]){
         cout << "-e: Exclusion zone around each peak that prevents others from being called. Default 10." << endl;
         cout << "-w: Width of called peaks. Default 10." << endl;
         cout << "-F: Absolute read filter; outputs only peaks with larger read count. Default 1." << endl;
-        cout << "-k: Size, in base pairs, to chunk each chromosome into when processing. Default 10,000." << endl;
+        cout << "-k: Size, in base pairs, to chunk each chromosome into when processing. Default 100,000." << endl;
         return 1;
     }
     
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]){
     o.exclusion = 10;
     o.width = 10;
     o.filter = 1;
-    o.chunkSize = 1000;
+    o.chunkSize = 100000;
     
     for(int i=2; (i+1)<argc; i += 2){ // Loop over possible options switches
         string option = argv[i];
