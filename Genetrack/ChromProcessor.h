@@ -153,7 +153,6 @@ public:
     void WritePeaks(vector<GFFRow>* reads){
         for(GFFRow& read : *reads){
             StripZeroPadding(read.cname); // Translate chr01 to chr1
-            cout << read.ToString() << endl;
             *OutputFile << read.ToString() << endl;
         }
     }

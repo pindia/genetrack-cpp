@@ -35,6 +35,10 @@ public:
 		return rows;
 	}
     
+    bool IsDone(){
+        return done;
+    }
+    
 private:
     
 	bool NextValidRow(){

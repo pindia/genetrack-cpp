@@ -13,9 +13,7 @@ int main(){
     ifstream input("input.gff");
     GFFReader reader(&input);
     
-    vector<GFFRow> chr1 = reader.LoadChromosome();
-    
-    ofstream output("output.gff");
+        ofstream output("output.gff");
     ChromProcessor processor(&output);
     
     Options o;
@@ -25,12 +23,18 @@ int main(){
     o.filter = 1;
     o.chunkSize = 1000;
     
-    int maxIndex = chr1.back().start;
-    
-    for(int startIndex=0; startIndex<maxIndex; startIndex += o.chunkSize){
-        processor.ProcessReads(chr1, startIndex, startIndex + o.chunkSize, o);
-    }
-    
+    do{ // Main loop to process each chromosome in the file
+
+        vector<GFFRow> chr = reader.LoadChromosome();
+        
+        int maxIndex = chr.back().start;
+        
+        for(int startIndex=0; startIndex<maxIndex; startIndex += o.chunkSize){
+            // Secondary loop to process each chunk in the chromosome
+            processor.ProcessReads(chr, startIndex, startIndex + o.chunkSize, o);
+        }
+        
+    } while(!reader.IsDone());
     
     return 0;
 }
