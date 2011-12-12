@@ -5,5 +5,7 @@
 
 struct Options{
     int sigma;
+    int width;
     int exclusion;
+    int filter;
 };

@@ -21,6 +21,8 @@ int main(){
     Options o;
     o.sigma = 5;
     o.exclusion = 20;
+    o.width = 20;
+    o.filter = 1;
     
     processor.ProcessReads(chr1, 0, 0, o);
     

@@ -38,6 +38,10 @@ public:
         
         // First, set up the chromosome distribution
         for(const GFFRow& read : reads){
+            
+            if(read.score <= options.filter)
+                continue; // If read does not pass filter, do not process it
+            
             // For each read, calculate a normal distribution centered at its start.
             // Go forward and back NORMAL_BOUNDS and add each element of the normal distribution to the chromosome distribution
             for(int i=-NORMAL_BOUNDS; i<+NORMAL_BOUNDS; i++){
@@ -53,16 +57,6 @@ public:
         // Call the peaks from the distribution
         vector<GFFRow>* forwardPeaks = CallPeaks(forward, FORWARD, options);
         vector<GFFRow>* reversePeaks = CallPeaks(reverse, REVERSE, options);
-        
-        
-        /*GFFSearcher s(forwardPeaks);
-        
-        for(GFFRow* row : *(s.GetWindow(-50, 50))){
-            cout << row->start << endl;
-            
-        }
-        
-        return;*/
         
         // Process exclusion on the peaks
         PerformExclusion(forwardPeaks, options);
@@ -92,6 +86,8 @@ public:
         
         GFFSearcher s(peaks); // Construct GFFSearcher with the list of peaks (currently sorted by index)
         
+        // Copy the peaks into a new vector to sort by score
+        // This vector stores pointers to the original peaks so that they can be mutated
         vector<GFFRow*> peaksByScore;
         for(GFFRow& row : *peaks){
             peaksByScore.push_back(&row);
@@ -99,17 +95,15 @@ public:
         SortByScore(peaksByScore);
         
         
-        
+        // Loop over peaks by score, so that peaks with higher score have priority over peaks with lower score
         for(GFFRow* peak : peaksByScore){
             if(peak->score == 0)
                 continue; // This peak has already been excluded; don't let it exclude anything itself
-            newPeaks->push_back(*peak);
+            newPeaks->push_back(*peak); // Add the non-excluded peaks
             // Exclude other peaks
-            //cout << (peak->start - options.exclusion) << "-" << peak->start + options.exclusion << endl;
             vector<GFFRow*>* otherPeaks = s.GetWindow(peak->start - options.exclusion, peak->start + options.exclusion);
             for(GFFRow* otherPeak : *otherPeaks){
                 if(peak->start != otherPeak->start){
-                    //cout << "Excluding peak " << otherPeak->start << " due to peak " << peak->start << endl;
                     otherPeak->score = 0; // Zero out the score for excluded peaks so we know they're excluded
                 }
             }
@@ -132,8 +126,8 @@ public:
                 GFFRow r;
                 r.cname = dist->GetChrom();
                 r.source = "genetrack";
-                r.start = i - options.exclusion;
-                r.end = i + options.exclusion;
+                r.start = i - options.width; // Use peak width from options
+                r.end = i + options.width;
                 r.strand = strand;
                 r.score = dist->GetData(i);
                 peaks->push_back(r);
