@@ -11,6 +11,19 @@
 #define PADDING 100
 #define NORMAL_BOUNDS 50
 
+bool CompareByStart (const GFFRow& first, const GFFRow& second)
+{
+    if (first.start<second.start) return true;
+    else return false;
+}
+
+bool CompareByScore (GFFRow* first, GFFRow* second)
+{
+    if (first->score>second->score) return true;
+    else return false;
+}
+
+
 class ChromProcessor{
 public:
     ChromProcessor(ofstream* outputFile){
@@ -41,32 +54,79 @@ public:
         vector<GFFRow>* forwardPeaks = CallPeaks(forward, FORWARD, options);
         vector<GFFRow>* reversePeaks = CallPeaks(reverse, REVERSE, options);
         
-        // Process exclusion on the peaks
         
+        /*GFFSearcher s(forwardPeaks);
+        
+        for(GFFRow* row : *(s.GetWindow(-50, 50))){
+            cout << row->start << endl;
+            
+        }
+        
+        return;*/
+        
+        // Process exclusion on the peaks
         PerformExclusion(forwardPeaks, options);
         PerformExclusion(reversePeaks, options);
         
         // Finally, write the called peaks to the output file
         WritePeaks(forwardPeaks);
-        
         WritePeaks(reversePeaks);
         
         
     }
     
-    void PerformExclusion(vector<GFFRow>* peaks, const Options& options){
-        GFFSearcher s(peaks);
-        for(const GFFRow& peak : *peaks){
-            vector<GFFRow>* otherPeaks = s.GetWindow(peak.start, peak.end);
+    void SortByScore(vector<GFFRow*>& peaks){
+        sort(peaks.begin(), peaks.end(), CompareByScore);
+        
+    }
+    
+    void SortByStart(vector<GFFRow>& peaks){
+        sort(peaks.begin(), peaks.end(), CompareByStart);
+        
+    }
+    
+    
+    void PerformExclusion(vector<GFFRow>*& peaks, const Options& options){
+        
+        vector<GFFRow>* newPeaks = new vector<GFFRow>();
+        
+        GFFSearcher s(peaks); // Construct GFFSearcher with the list of peaks (currently sorted by index)
+        
+        vector<GFFRow*> peaksByScore;
+        for(GFFRow& row : *peaks){
+            peaksByScore.push_back(&row);
+        }
+        SortByScore(peaksByScore);
+        
+        
+        
+        for(GFFRow* peak : peaksByScore){
+            if(peak->score == 0)
+                continue; // This peak has already been excluded; don't let it exclude anything itself
+            newPeaks->push_back(*peak);
+            // Exclude other peaks
+            //cout << (peak->start - options.exclusion) << "-" << peak->start + options.exclusion << endl;
+            vector<GFFRow*>* otherPeaks = s.GetWindow(peak->start - options.exclusion, peak->start + options.exclusion);
+            for(GFFRow* otherPeak : *otherPeaks){
+                if(peak->start != otherPeak->start){
+                    //cout << "Excluding peak " << otherPeak->start << " due to peak " << peak->start << endl;
+                    otherPeak->score = 0; // Zero out the score for excluded peaks so we know they're excluded
+                }
+            }
+            
         }
         
+        SortByStart(*newPeaks); // New peaks should be once again sorted by index
+        
+        peaks = newPeaks;
+                
     }
     
     vector<GFFRow>* CallPeaks(ChromDist* dist, Strand strand, const Options& options) const{
         vector<GFFRow>* peaks = new vector<GFFRow>();
         // Loop through the chromosome and look for maxima to call peaks
         for(int i=dist->GetStart()+1; i<dist->GetEnd(); i++){
-            if( i > 1000)
+            if(i > 1000)
                 break;
             if(dist->GetData(i) > dist->GetData(i-1) && dist->GetData(i) > dist->GetData(i+1)){
                 GFFRow r;
@@ -84,6 +144,7 @@ public:
     
     void WritePeaks(vector<GFFRow>* reads){
         for(const GFFRow& read : *reads){
+            cout << read.ToString() << endl;
             *OutputFile << read.ToString() << endl;
         }
     }

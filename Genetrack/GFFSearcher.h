@@ -10,28 +10,35 @@
 class GFFSearcher{
 public:
     GFFSearcher(vector<GFFRow>* data){
-        Data = data;
+        Data = new vector<GFFRow*>(); 
         Keys = new vector<int>();
-        for(const GFFRow& row : *data){
+        for(GFFRow& row : *data){
+            Data->push_back(&row);
             Keys->push_back(row.start); // Build the keys table for binary search
         }
     }
     
+    /*~GFFSearcher(){
+        delete Data;
+        delete Keys;
+    }*/
+    
     // Returns a sub-vector with all of the rows with start coordinates within the given boundaries
-    vector<GFFRow>* GetWindow(int start, int end){
+    vector<GFFRow*>* GetWindow(int start, int end){
         int startIndex = BisectLeft(start);
         int endIndex = BisectRight(end);
-        vector<GFFRow>* subvector = new vector<GFFRow>();
+        vector<GFFRow*>* subvector = new vector<GFFRow*>();
         for(int i=startIndex; i<endIndex; i++){
-            subvector->push_back((*Data)[i]);
+            GFFRow* row = (*Data)[i];
+            subvector->push_back(row);
         }
         return subvector;
     }
     
     
-    vector<GFFRow>* GetData() const{
+    /*vector<GFFRow*>* GetData() const{
         return Data;
-    }
+    }*/
     
 private:
     
@@ -49,7 +56,7 @@ private:
         return (int)(it - Keys->begin());        
     }
     
-    vector<GFFRow>* Data;
+    vector<GFFRow*>* Data;
     vector<int>* Keys;
     
 };

@@ -23,7 +23,7 @@ struct GFFRow{
 	Strand strand; // Strand feature is located on
 	string phase;  // Phase of feature
 	map<string, string> attrs; // Miscellaneous attributes
-	
+    
 	static bool IsValidRow(string str){
 		return strcount(str, '\t') == 8;
 	}

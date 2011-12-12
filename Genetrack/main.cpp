@@ -9,8 +9,7 @@
 #include "ChromProcessor.h"
 
 int main(){
-    
-    
+        
     ifstream input("input.gff");
     GFFReader reader(&input);
     
@@ -20,8 +19,8 @@ int main(){
     ChromProcessor processor(&output);
     
     Options o;
-    o.sigma = 10;
-    o.exclusion = 10;
+    o.sigma = 5;
+    o.exclusion = 20;
     
     processor.ProcessReads(chr1, 0, 0, o);
     
